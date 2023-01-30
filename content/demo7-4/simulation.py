@@ -1,8 +1,8 @@
 """
 Carbon helper module - run the simulation
 """
-__VERSION__ = "3.1-local2"
-__DATE__ = "29/01/2023"
+__VERSION__ = "3.2"
+__DATE__ = "30/01/2023"
 
 from collections import namedtuple
 import numpy as _np
@@ -168,7 +168,12 @@ def plot_sim(simresults, simresults0, dataid, params, pair=None, colors=None):
         pair = pair_nt(*pair)
 
     p = Params.construct(params, defaults=SIM_DEFAULT_PARAMS.params)
-    c = Params.construct(colors, defaults=COLORS.params)
+    try:
+        colors1 = colors["darkmode" if p.plotDark else "lightmode"]
+    except:
+        colors1 = colors
+
+    c = Params.construct(colors1, defaults=COLORS.params)
     bg = 1 if p.plotValueGrey else 0 # choice between the two colors in c.value
     
     if isinstance(strat, _strategy):
@@ -320,4 +325,5 @@ class StartConditions():
     @property
     def uni_ranges_raw(self):
         return [float(x) for x in self._d["uniswap range boundaries"]]
+    
     
