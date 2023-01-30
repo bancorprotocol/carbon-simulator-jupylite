@@ -13,11 +13,11 @@
 #     name: python3
 # ---
 
-# + jupyter={"source_hidden": true}
+# + tags=[] jupyter={"source_hidden": true}
 # %pip install carbon-simulator
 # %pip install ipywidgets
 
-# + tags=[] jupyter={"source_hidden": true}
+# + jupyter={"source_hidden": true} tags=[]
 from carbon.helpers.stdimports import *
 from carbon.helpers import j, strategy, pdread, pdcols, fsave, listdir, Params, PathInterpolation as PI
 from carbon.helpers import require_version
@@ -38,11 +38,12 @@ print_version(require="2.3")
 # -
 
 # # Carbon Simulation - Demo 7-4 
-# **Latest** notebook on [Binder][latest_nb] and on [github][latest_gh]
+# _**This notebook [on JupyLite][jupylite_nb]** ([associated repo][jupylite_gh]) 
+# and **[on Binder][binderlatest_nb]** ([associated repo][binderlatest_gh])._
 #
-# Use **Run -- Run All Cells** in the menu above to run the notebook, then adjust the simulation parameters using the widgets provided. 
+# Use **Run -- Run All Cells** in the menu above, then adjust simulation parameters using the widgets.
 #
-# Further resources are (1) the github repo [github:carbon-simulator-binder][repob] associated with this binder, (2) the main simulator repo [github:carbon-simulator][repo], (3) the carbon package [pypi:carbon-simulator][simpypi] and finally (4) the ["Carbon Simulator" presentation][presn]
+# Further resources are (1) the main simulator repo [github:carbon-simulator][repo], (2) the carbon package [pypi:carbon-simulator][simpypi], and finally (3) the ["Carbon Simulator" presentation][presn]
 #
 # [presn]:https://github.com/bancorprotocol/carbon-simulator/blob/beta/resources/notes/202301%20Simulating%20Carbon.pdf
 # [simpypi]:https://pypi.org/project/carbon-simulator/
@@ -51,8 +52,10 @@ print_version(require="2.3")
 # [frozen]:https://mybinder.org/v2/gh/bancorprotocol/carbon-simulator-binder/frozen_20230128
 # [frozen_nb]:https://mybinder.org/v2/gh/bancorprotocol/carbon-simulator-binder/frozen_20230128?labpath=Frozen%2FDemo7-4%2FDemo7-4.ipynb
 # [frozen_gh]:https://github.com/bancorprotocol/carbon-simulator-binder/blob/frozen_20230128/Frozen/Demo7-4/Demo7-4.ipynb
-# [latest_nb]:https://mybinder.org/v2/gh/bancorprotocol/carbon-simulator-binder/latest_7_4?labpath=Frozen%2FDemo7-4%2FDemo7-4.ipynb
-# [latest_gh]:https://github.com/bancorprotocol/carbon-simulator-binder/blob/latest_7_4/Frozen/Demo7-4/Demo7-4.ipynb
+# [jupylite_nb]:https://sklbancor.github.io/carbon-sim-jupylite/lab?path=demo7-4%2Fdemo7-4.ipynb
+# [jupylite_gh]:https://github.com/sklbancor/carbon-sim-jupylite
+# [binderlatest_nb]:https://mybinder.org/v2/gh/bancorprotocol/carbon-simulator-binder/latest_7_4?labpath=Frozen%2FDemo7-4%2FDemo7-4.ipynb
+# [binderlatest_gh]:https://github.com/bancorprotocol/carbon-simulator-binder/blob/latest_7_4/Frozen/Demo7-4/Demo7-4.ipynb
 
 # ## Setup
 
@@ -60,7 +63,7 @@ print_version(require="2.3")
 #
 # If `OUTPATH` is `None`, output will not be saved, otherwise it will be saved to the indicated directory.
 
-# + tags=[] jupyter={"source_hidden": true}
+# + jupyter={"source_hidden": true} tags=[]
 OUTPATH = "./outimg"
 OUTDATAPATH = "./outdata"
 try:
@@ -92,7 +95,7 @@ except:
     datafn_w = DropdownManager(listdir(DATAPATH, ".pickle"), defaultval="COINS-ETH")
     datafn_w()
 
-# + tags=[] jupyter={"source_hidden": true}
+# + jupyter={"source_hidden": true} tags=[]
 cols = tuple(pdcols(j(DATAPATH, f"{datafn_w.value}.pickle")))
 try:
     assert datafn_w.value == old_datafn_w_value
@@ -121,7 +124,7 @@ PIFACTOR = 1            # the scaling factor applied to the macroscopic vol of t
 #
 # Check the strategies you want to be included below. The `slider` strategy is set by the sliders, all others are set to the paramters indicated (click on `...` to open the code cell if it is hidden). For all strategies except `fixed` and `uni v3` the strategy is rescalted so that `m=100` is the initial spot value.
 
-# + tags=[] jupyter={"source_hidden": true}
+# + jupyter={"source_hidden": true} tags=[]
 strats = {
      "slider":     None, # driven by sliders below
      "wide1":      [strategy.from_mgw(m=100, g=0.1, w=0.4)],
@@ -142,10 +145,21 @@ except:
 
 # ### Chart elements and look
 #
-# On the check boxes you can check which items to include in the chart. If you open the cells below you will be able to set the default values (upon restarting the kernal) and colors.
+# On the check boxes you can check which items to include in the chart. If you open the cells below you will be able to set the default values (upon restarting the kernel) and colors.
 
-# + jupyter={"source_hidden": true}
-colors = {
+# + tags=[] jupyter={"source_hidden": true}
+colors = dict()
+colors["darkmode"] = {
+    'bidFill': 'lightgreen',
+    'askFill': 'lightcoral',
+    'bid': 'green',
+    'ask': 'red',
+    'price': 'darkorange',
+    'hodl': 'cyan',
+    'value': ('blue', 'silver'),
+    'valuehf': ('royalblue', 'silver')
+}
+colors["lightmode"] = {
     'bidFill': 'lightgreen',
     'askFill': 'lightcoral',
     'bid': 'green',
@@ -234,7 +248,7 @@ else:
 
 # ## Simulation
 
-# + tags=[] jupyter={"source_hidden": true}
+# + jupyter={"source_hidden": true} tags=[]
 # if output_w.values[3]:
 # #     !rm {OUTPATH}/*.png
 # #     !rm {OUTDATAPATH}/*.data
@@ -243,7 +257,7 @@ else:
 
 # ### Charts
 
-# + tags=[] jupyter={"source_hidden": true}
+# + jupyter={"source_hidden": true} tags=[]
 _ = plt_style(*plt_styles[1]) if params_w.values_dct["plotDark"] else plt_style(*plt_styles[0])
 DATAID, DATAFN = datafn_w.value, j(DATAPATH, f"{datafn_w.value}.pickle") 
 STARTPC, LENPC, SV, COLNM = segment_w.values[0], segment_w.values[1], strat1_w.values, datacols_w.value
@@ -280,7 +294,7 @@ if OUTPATH and output_w.values[1]:
 
 # Provide the corresponding box above (_"Generate docx & zip from charts"_) is checked, this will create a Word `docx` file embedding all the `png` files _(this does not work in the JupyterLite distribution)_.
 
-# + jupyter={"source_hidden": true}
+# + tags=[] jupyter={"source_hidden": true}
 # if OUTPATH and output_w.values[2]:
 #     print("Creating consolidated docx and zip from charts and data [uncheck box at top to disable]")
 #     markdown = "\n\n".join(f"![]({OUTPATH}/{fn})" for fn in [fn for fn in os.listdir(OUTPATH) if fn[-4:]==".png"])
