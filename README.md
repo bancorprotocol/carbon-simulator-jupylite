@@ -1,4 +1,5 @@
 # Carbon Simulator (JupyterLite Version)
+_v0.9 - 31/Jan/2023_
 
 - **[the Demo7-4 notebook on the deployed JupyterLite instance][url_nb]**
  (notebook [on Binder][binder_latest74])
