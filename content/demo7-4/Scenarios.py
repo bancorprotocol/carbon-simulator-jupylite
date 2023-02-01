@@ -138,7 +138,7 @@ except:
 HTML(f"<h2>Charts `{datacols_w.value}`</h2>")
 
 
-# + endofcell="--" jupyter={"source_hidden": true} tags=[]
+# + endofcell="--" tags=[] jupyter={"source_hidden": true}
 def filter_isnan(val):
     """returns val unless val=nan, then it returns ''"""
     try:
@@ -153,6 +153,7 @@ for sc, r in df_select.to_dict(orient="index").items():
     STARTPC, LENPC       = r["data_startpc"], r["data_lenpc"]
     DATAID, COLNM        = r["data_id"], r["data_col"]
     INVERT, INTERPOLATE  = r["data_invert"], r["data_interpolate"]
+    ONLY_HF              = r["data_onlyhf"]
     PIPERIOD, PIFACTOR   = PI.hours(r["data_piperiod"]), r["data_pifactor"]
     PATH_MIN_DATE        = r["data_pathmindt"]
     TVL, CASHPC          = r["strat_tvl"], r["strat_cashpc"]
@@ -161,6 +162,7 @@ for sc, r in df_select.to_dict(orient="index").items():
     strats               = { sc: [strategy.from_dct(r)] }
     path0, pair = pdread(DATAFN, COLNM, from_pc=STARTPC, period_pc=LENPC, min_dt=PATH_MIN_DATE, invert=INVERT, tkns=True)
     path = PI.interpolate(path0, PIPERIOD, sigfctr=PIFACTOR, enable=INTERPOLATE)
+    path0 = path if ONLY_HF else path0
     for ix, stratid in enumerate(strats):
         strat = [s.set_tvl(spot=path0[0], cashpc=CASHPC, tvl=TVL) for s in strats[stratid]]
         simresults  = run_sim(strat, path)
