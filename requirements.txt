@@ -4,3 +4,4 @@ pyyaml
 carbon-simulator
 ipywidgets
 openpyxl
+requests
