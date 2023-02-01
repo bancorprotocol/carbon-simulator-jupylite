@@ -1,14 +1,16 @@
 # Carbon Simulator (JupyterLite Version)
-_v0.9 - 31/Jan/2023_
+_v1.0 - 01/Feb/2023_
 
-- **[the Demo7-4 notebook on the deployed JupyterLite instance][url_nb]**
+- **[the "Demo7-4" notebook on JupyterLite][url_nb]**
  (notebook [on Binder][binder_latest74])
+- **[the "Scenarios" notebook on JupyterLite ][urlsc_nb]**
 - the associated [github repo][gh] ([actions status][gh_actions]; [actions setting][gh_action_set]; [pages settings][gh_pages_set])
 - the `carbon simulator` [on github][simrepo], [pypi][simpypi] and various notebooks [on Binder][binderrepo]
 - the Carbon [website][carbonxyz], [whitepaper][whitepaper] and [litepaper][litepaper]
 
 [url]:https://sklbancor.github.io/carbon-sim-jupylite/lab/index.html
 [url_nb]:https://sklbancor.github.io/carbon-sim-jupylite/lab?path=demo7-4%2Fdemo7-4.ipynb
+[urlsc_nb]:https://sklbancor.github.io/carbon-sim-jupylite/lab?path=demo7-4%2FScenarios.ipynb
 [gh]:https://github.com/sklbancor/carbon-sim-jupylite
 [gh_actions]:https://github.com/sklbancor/carbon-sim-jupylite/actions
 [gh_action_set]:https://github.com/sklbancor/carbon-sim-jupylite/settings/actions
