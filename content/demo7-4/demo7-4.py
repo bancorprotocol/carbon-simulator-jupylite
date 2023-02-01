@@ -35,10 +35,13 @@ except:
     print(f"Using simulation library in Carbon [v{simversion}]")
 import pickle
 import datetime 
+import version as _v
+
 
 plt.rcParams['figure.figsize'] = [12,6]
 plt_style('seaborn-v0_8-dark', 'seaborn-dark')
 print_version(require="2.3.1")
+_v.print_version()
 # -
 
 # # Carbon Simulation - Demo 7-4 

@@ -13,7 +13,7 @@
 #     name: python3
 # ---
 
-# + jupyter={"source_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 import os
 if not os.path.isfile("NOPIP"):
     print("Running pip installs. Create a file called 'NOPIP' to disable.")
@@ -42,10 +42,12 @@ except:
 
 import math
 from IPython.display import HTML
+import version as _v
 
 plt.rcParams['figure.figsize'] = [12,6]
 plt_style('seaborn-v0_8-dark', 'seaborn-dark')
 print_version(require="2.3")
+_v.print_version()
 # -
 
 # # Carbon Simulation - Scenarios
