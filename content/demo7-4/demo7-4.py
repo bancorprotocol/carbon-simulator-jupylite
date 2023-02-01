@@ -14,8 +14,12 @@
 # ---
 
 # + tags=[] jupyter={"source_hidden": true}
-# %pip install carbon-simulator
-# %pip install ipywidgets
+import os
+if not os.path.isfile("NOPIP"):
+    print("Running pip installs. Create a file called 'NOPIP' to disable.")
+    # %pip install carbon-simulator
+    # %pip install ipywidgets
+
 
 # + tags=[] jupyter={"source_hidden": true}
 from carbon.helpers.stdimports import *
@@ -264,8 +268,9 @@ for ix, stratid in enumerate(strats_w.checked):
     strat = [s.set_tvl(spot=path0[0], cashpc=stratall_w.values[0], tvl=TVL) for s in strats[stratid]]
     simresults  = run_sim(strat, path, shift=stratall_w.values[1])
     simresults0 = run_sim(strat, path0, shift=stratall_w.values[1]) if not path is path0 else simresults
-    v0, v1, v1a = simresults.value_r[0], simresults.value_r[-1], simresults0.value_r[-1]
-    print(f"TVL0={v0:.1f}, TVL1_hf={v1:.1f} ({v1/v0*100-100:.1f}%) TVL1_lf={v1a:.1f} ({v1a/v0*100-100:.1f}%)")
+    v0, v1, v1a,  = simresults.value_r[0], simresults.value_r[-1], simresults0.value_r[-1]
+    vh1, vh1a = simresults.hodl_r[-1], simresults0.hodl_r[-1]
+    print(f"\n[{stratid}] TVL0={v0:.1f}, TVL1_hf={v1:.1f} ({v1/v0*100-100:.1f}%; h={vh1/v0*100-100:.1f}%) TVL1_lf={v1a:.1f} ({v1a/v0*100-100:.1f}%; h={vh1a/v0*100-100:.1f}%)")
     plot_sim(simresults, simresults0, f"{DATAID}:{COLNM}", Params(**params_w.values_dct), pair=pair, colors=colors)
     if isinstance(OUTPATH, str):
         plt.savefig(j(OUTPATH, fname(DATAID, COLNM)))
