@@ -13,11 +13,11 @@
 #     name: python3
 # ---
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 # %pip install carbon-simulator
 # %pip install ipywidgets
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 from carbon.helpers.stdimports import *
 from carbon.helpers import j, strategy, pdread, pdcols, fsave, listdir, Params, PathInterpolation as PI
 from carbon.helpers import require_version
@@ -34,7 +34,7 @@ import datetime
 
 plt.rcParams['figure.figsize'] = [12,6]
 plt_style('seaborn-v0_8-dark', 'seaborn-dark')
-print_version(require="2.3")
+print_version(require="2.3.1")
 # -
 
 # # Carbon Simulation - Demo 7-4 
@@ -52,7 +52,7 @@ print_version(require="2.3")
 # [frozen]:https://mybinder.org/v2/gh/bancorprotocol/carbon-simulator-binder/frozen_20230128
 # [frozen_nb]:https://mybinder.org/v2/gh/bancorprotocol/carbon-simulator-binder/frozen_20230128?labpath=Frozen%2FDemo7-4%2FDemo7-4.ipynb
 # [frozen_gh]:https://github.com/bancorprotocol/carbon-simulator-binder/blob/frozen_20230128/Frozen/Demo7-4/Demo7-4.ipynb
-# [jupylite_nb]:https://sklbancor.github.io/carbon-sim-jupylite/lab?path=demo7-4%2Fdemo7-4.ipynb
+# [jupylite_nb]:https://sim.carbondefi.xyz/lab?path=demo7-4%2Fdemo7-4.ipynb
 # [jupylite_gh]:https://github.com/sklbancor/carbon-sim-jupylite
 # [binderlatest_nb]:https://mybinder.org/v2/gh/bancorprotocol/carbon-simulator-binder/latest_7_4?labpath=Frozen%2FDemo7-4%2FDemo7-4.ipynb
 # [binderlatest_gh]:https://github.com/bancorprotocol/carbon-simulator-binder/blob/latest_7_4/Frozen/Demo7-4/Demo7-4.ipynb
@@ -63,7 +63,7 @@ print_version(require="2.3")
 #
 # If `OUTPATH` is `None`, output will not be saved, otherwise it will be saved to the indicated directory.
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 OUTPATH = "./outimg"
 OUTDATAPATH = "./outdata"
 try:
@@ -77,7 +77,7 @@ except:
         })
     output_w()
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
+# + jupyter={"source_hidden": true}
 fname = lambda data, col: f"{datetime.datetime.now().strftime('%m%d-%H%M%S')}-{data}-{col.replace('/', '')}.png"
 fname("DATA", "COL")
 # -
@@ -87,7 +87,7 @@ fname("DATA", "COL")
 # Filename determines **collection**, eg `BTC-COINS`is a collection of coins with prices expressted in BTC. **If you change the top dropdown, YOU MUST USE `Run All` to update the bottom dropdown** allowing you to choose the **pair**. 
 #
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
+# + jupyter={"source_hidden": true}
 DATAPATH = "../data"
 try:
     datafn_w()
@@ -95,7 +95,7 @@ except:
     datafn_w = DropdownManager(listdir(DATAPATH, ".pickle"), defaultval="COINS-ETH")
     datafn_w()
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 cols = tuple(pdcols(j(DATAPATH, f"{datafn_w.value}.pickle")))
 try:
     assert datafn_w.value == old_datafn_w_value
@@ -108,14 +108,14 @@ except:
 
 # Check `invert` if you want inverse quotation, and check `hf interpolate` and if you want to augment the path with random high frequency data matching the overall volatility of the path.
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
+# + jupyter={"source_hidden": true}
 try:
     pathops_w()
 except:
     pathops_w = CheckboxManager(["invert", "hf interpolate"], values=[0,0])
     pathops_w()
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
+# + jupyter={"source_hidden": true}
 PIPERIOD = PI.hours(1)  # the granulariy of the path if "hf interpolate" was checked
 PIFACTOR = 1            # the scaling factor applied to the macroscopic vol of the path
 # -
@@ -124,7 +124,7 @@ PIFACTOR = 1            # the scaling factor applied to the macroscopic vol of t
 #
 # Check the strategies you want to be included below. The `slider` strategy is set by the sliders, all others are set to the paramters indicated (click on `...` to open the code cell if it is hidden). For all strategies except `fixed` and `uni v3` the strategy is rescalted so that `m=100` is the initial spot value.
 
-# + tags=[] jupyter={"outputs_hidden": true, "source_hidden": true}
+# + tags=[] jupyter={"source_hidden": true}
 strats = {
      "slider":     None, # driven by sliders below
      "wide1":      [strategy.from_mgw(m=100, g=0.1, w=0.4)],
@@ -150,7 +150,7 @@ except:
 #
 # On the check boxes you can check which items to include in the chart. If you open the cells below you will be able to set the default values (upon restarting the kernel) and colors.
 
-# + jupyter={"outputs_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 colors = dict()
 colors["darkmode"] = {
     'bidFill': 'lightgreen',
@@ -175,7 +175,7 @@ colors["lightmode"] = {
     'valuehf': ('royalblue', 'silver')
 }
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
+# + jupyter={"source_hidden": true}
 sim_defaults = {
     'plotPrice': True,
     'plotValueCsh': True,
@@ -193,7 +193,7 @@ sim_defaults = {
 }
 plt_styles = (('seaborn-v0_8-dark', 'seaborn-dark'), ('dark_background',)*2)
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
+# + jupyter={"source_hidden": true}
 try: 
     params_w()
 except:
@@ -205,7 +205,7 @@ except:
 #
 # The `start date` and the `length` are quoted as percentage total time. Before applying the sliders, the time series is restricted to start at `PATH_MIN_DATE` which you can change in the cell below. 
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
+# + jupyter={"source_hidden": true}
 PATH_MIN_DATE = "2021-01-01" # 2021-01-01 for ETH/BTC and Uni v3 range
 try:
     segment_w(vertical=True)
@@ -218,7 +218,7 @@ except:
 #
 #  The parameter `csh` is the initial cash percentage of the portfolio (100%=all cash), and it total cash value is `TVL` which you can set in the cell below. The slider `shift` allows shifting _all_ rescalable strategies up or down (eg, 5 is 5% up)
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
+# + jupyter={"source_hidden": true}
 TVL = 1000
 try:
     stratall_w(vertical=True)
@@ -231,30 +231,20 @@ except:
 #
 # This is the strategy called `slider`. Here `m` is the mid price of the range (100 is inital spot value), `g%` is the gap between the ranges in percent, and `w%` is the width of the ranges in percent. The parameter `u%` is the range utilisation rate, where `u=0%` means the range is full, and `u~100%` means that it is almost empty.
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
-if require_version("2.3.1", raiseonfail=False):
-    try:
-        strat1_w(vertical=True)
-    except:
-        S0, SMIN, SMAX = 100, 50, 200
-        strat1_w = PcSliderManager(["m", "g%", "w%", "ubid%", "uask%"], 
-                            values=[S0/100, 0.1, 0.25, 0, 0], 
-                            range=[(SMIN/100,SMAX/100),(0,0.50),(0,0.50),(0,1),(0,1)])
-        strat1_w(vertical=True)
-else:
-    try:
-        strat1_w(vertical=True)
-    except:
-        S0, SMIN, SMAX = 100, 50, 200
-        strat1_w = PcSliderManager(["m", "g%", "w%", "u%"], 
-                            values=[S0/100, 0.1, 0.25, 0], 
-                            range=[(SMIN/100,SMAX/100),(0,0.50),(0,0.50),(0,1)])
-        strat1_w(vertical=True)
+# + tags=[] jupyter={"source_hidden": true}
+try:
+    strat1_w(vertical=True)
+except:
+    S0, SMIN, SMAX = 100, 50, 200
+    strat1_w = PcSliderManager(["m", "g%", "wbid%", "wask%", "ubid%", "uask%"], 
+                        values=[S0/100, 0.1, 0.25, 0.25, 0, 0], 
+                        range=[(SMIN/100,SMAX/100),(0,1),(0,0.50),(0,0.50),(0,1),(0,1)])
+    strat1_w(vertical=True)
 # -
 
 # ## Simulation
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 # if output_w.values[3]:
 # #     !rm {OUTPATH}/*.png
 # #     !rm {OUTDATAPATH}/*.data
@@ -263,16 +253,13 @@ else:
 
 # ### Charts
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 _ = plt_style(*plt_styles[1]) if params_w.values_dct["plotDark"] else plt_style(*plt_styles[0])
 DATAID, DATAFN = datafn_w.value, j(DATAPATH, f"{datafn_w.value}.pickle") 
 STARTPC, LENPC, SV, COLNM = segment_w.values[0], segment_w.values[1], strat1_w.values, datacols_w.value
 path0, pair = pdread(DATAFN, COLNM, from_pc=STARTPC, period_pc=LENPC, min_dt=PATH_MIN_DATE, invert=pathops_w.values[0], tkns=True)
 path = PI.interpolate(path0, PIPERIOD, sigfctr=PIFACTOR, enable=pathops_w.values[1])
-try:
-    strats["slider"] = [strategy.from_mgw(m=100*SV[0], g=SV[1], w=SV[2], u=(SV[4], SV[3]))]
-except:
-    strats["slider"] = [strategy.from_mgw(m=100*SV[0], g=SV[1], w=SV[2], u=SV[3])]
+strats["slider"] = [strategy.from_mgw(m=100*SV[0], g=SV[1], w=(SV[3], SV[2]), u=(SV[5], SV[4]))]
 for ix, stratid in enumerate(strats_w.checked):
     strat = [s.set_tvl(spot=path0[0], cashpc=stratall_w.values[0], tvl=TVL) for s in strats[stratid]]
     simresults  = run_sim(strat, path, shift=stratall_w.values[1])
@@ -290,7 +277,7 @@ for ix, stratid in enumerate(strats_w.checked):
 
 # Below are all the files that have been generated, provided you (a) chose to generated them, and (b) you chose to display them using the checkboxes above. **Remember to download the charts from `outimg` and, is so desired, the data from `outdata`** as it may be discarded at the end of the session.
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true}
+# + jupyter={"source_hidden": true}
 if OUTPATH and output_w.values[1]:
     print("Listing OUTPATH [uncheck box at top to disable]")
     print ("\n".join([fn[:-4] for fn in os.listdir(OUTPATH) if fn[-4:]==".png"]))
@@ -300,7 +287,7 @@ if OUTPATH and output_w.values[1]:
 
 # Provide the corresponding box above (_"Generate docx & zip from charts"_) is checked, this will create a Word `docx` file embedding all the `png` files _(this does not work in the JupyterLite distribution)_.
 
-# + jupyter={"source_hidden": true, "outputs_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 # if OUTPATH and output_w.values[2]:
 #     print("Creating consolidated docx and zip from charts and data [uncheck box at top to disable]")
 #     markdown = "\n\n".join(f"![]({OUTPATH}/{fn})" for fn in [fn for fn in os.listdir(OUTPATH) if fn[-4:]==".png"])
@@ -309,5 +296,5 @@ if OUTPATH and output_w.values[1]:
 #     fsave(markdown, "_CHARTS.md", OUTPATH, quiet=True)
 # #     !pandoc {OUTPATH}/_CHARTS.md -o {OUTPATH}/_CHARTS.docx
 
-# + jupyter={"outputs_hidden": true, "source_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 
