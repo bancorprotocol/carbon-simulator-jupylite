@@ -113,7 +113,7 @@ except:
 # Check `invert` if you want inverse quotation, and check `hf interpolate` and if you want to augment the path with random high frequency data matching the overall volatility of the path. Check `display hf and lf` if you want to display both high and low frequency data in the same chart in case of hf interpolation. 
 #
 
-# + tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 try:
     pathops_w()
 except:
