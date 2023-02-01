@@ -3,3 +3,4 @@ jupyterlite==0.1.0b18
 pyyaml
 carbon-simulator
 ipywidgets
+openpyxl
