@@ -91,7 +91,7 @@ fname("DATA", "COL")
 # Filename determines **collection**, eg `BTC-COINS`is a collection of coins with prices expressted in BTC. **If you change the top dropdown, YOU MUST USE `Run All` to update the bottom dropdown** allowing you to choose the **pair**. 
 #
 
-# + jupyter={"source_hidden": true}
+# + tags=[] jupyter={"source_hidden": true}
 DATAPATH = "../data"
 try:
     datafn_w()
@@ -110,13 +110,14 @@ except:
     datacols_w()
 # -
 
-# Check `invert` if you want inverse quotation, and check `hf interpolate` and if you want to augment the path with random high frequency data matching the overall volatility of the path.
+# Check `invert` if you want inverse quotation, and check `hf interpolate` and if you want to augment the path with random high frequency data matching the overall volatility of the path. Check `display hf and lf` if you want to display both high and low frequency data in the same chart in case of hf interpolation. 
+#
 
-# + jupyter={"source_hidden": true}
+# + tags=[]
 try:
     pathops_w()
 except:
-    pathops_w = CheckboxManager(["invert", "hf interpolate"], values=[0,0])
+    pathops_w = CheckboxManager(["invert", "hf interpolate", "only hf"], values=[0,0,0])
     pathops_w()
 
 # + jupyter={"source_hidden": true}
@@ -263,6 +264,7 @@ DATAID, DATAFN = datafn_w.value, j(DATAPATH, f"{datafn_w.value}.pickle")
 STARTPC, LENPC, SV, COLNM = segment_w.values[0], segment_w.values[1], strat1_w.values, datacols_w.value
 path0, pair = pdread(DATAFN, COLNM, from_pc=STARTPC, period_pc=LENPC, min_dt=PATH_MIN_DATE, invert=pathops_w.values[0], tkns=True)
 path = PI.interpolate(path0, PIPERIOD, sigfctr=PIFACTOR, enable=pathops_w.values[1])
+path0 = path if pathops_w.values[2] else path0
 strats["slider"] = [strategy.from_mgw(m=100*SV[0], g=SV[1], w=(SV[3], SV[2]), u=(SV[5], SV[4]))]
 for ix, stratid in enumerate(strats_w.checked):
     strat = [s.set_tvl(spot=path0[0], cashpc=stratall_w.values[0], tvl=TVL) for s in strats[stratid]]
