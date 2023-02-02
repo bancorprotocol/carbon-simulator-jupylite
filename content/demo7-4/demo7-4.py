@@ -300,13 +300,13 @@ if OUTPATH and output_w.values[1]:
 
 # Provide the corresponding box above (_"Generate docx & zip from charts"_) is checked, this will create a Word `docx` file embedding all the `png` files _(this does not work in the JupyterLite distribution)_.
 
-# + tags=[] jupyter={"source_hidden": true}
+# + tags=[]
 if HASLSZIP:
     if OUTPATH and output_w.values[2]:
         print("Creating consolidated docx and zip from charts and data [uncheck box at top to disable]")
         markdown = "\n\n".join(f"![]({OUTPATH}/{fn})" for fn in [fn for fn in os.listdir(OUTPATH) if fn[-4:]==".png"])
-        # !zip _CHARTS.zip -qq *.png
-        # !zip _DATA.zip -qq *.data 
+        # !zip {OUTPATH}/_CHARTS.zip {OUTPATH}/*.png
+        # !zip {OUTDATAPATH}/_DATA.zip {OUTDATAPATH}/*.data
         fsave(markdown, "_CHARTS.md", OUTPATH, quiet=True)
         # !pandoc {OUTPATH}/_CHARTS.md -o {OUTPATH}/_CHARTS.docx
 
