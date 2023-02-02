@@ -9,6 +9,7 @@ content/carbon
 content/demo7-4/carbon
 *.png
 *.png.data
+*.data
 NOPIP
 
 # Created by https://www.gitignore.io/api/python
