@@ -41,6 +41,7 @@ except:
     print(f"Using strategy library in Carbon [v{stratversion}]")
 
 import math
+import pickle
 from IPython.display import HTML
 import version as _v
 
@@ -55,7 +56,11 @@ _v.print_version()
 # ## Chart elements and look
 
 
-# + endofcell="--" jupyter={"source_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
+OUTIMGPATH   = "./outimg" if True else None   # if set, images are written there
+OUTDATAPATH  = "./outdata" if True else None  # if set, data is written there
+
+# + endofcell="--" tags=[] jupyter={"source_hidden": true}
 colors = dict()
 colors["darkmode"] = {
     'bidFill': 'lightgreen',
@@ -82,7 +87,7 @@ colors["lightmode"] = {
 # -
 # --
 
-# + jupyter={"source_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 sim_defaults = {
     'plotPrice': True,
     'plotValueCsh': True,
@@ -95,12 +100,12 @@ sim_defaults = {
     'plotBid': True,
     'plotAsk': True,
     'plotInterpolated': True,
-    "plotDark": False,
-    'plotValueGrey': False,
+    "plotDark": True,
+    'plotValueGrey': True,
 }
 plt_styles = (('seaborn-v0_8-dark', 'seaborn-dark'), ('dark_background',)*2)
 
-# + jupyter={"source_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 try: 
     params_w()
 except:
@@ -111,7 +116,7 @@ except:
 # ## Scenario selection
 
 
-# + jupyter={"source_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 DATAPATH = "../data"
 fname = lambda data, col: f"{datetime.datetime.now().strftime('%m%d-%H%M%S')}-{data}-{col.replace('/', '')}.png"
 SCENARIOPATH, EXT = "./scenarios", ".xlsx" # possible extensions: xlsx and csv
@@ -122,9 +127,10 @@ except:
     scenariofn_w = DropdownManager(listdir(SCENARIOPATH, EXT))
     scenariofn_w()
 
-# + jupyter={"source_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 pread = pd.read_excel if EXT == ".xlsx" else pd.read_csv
-scenario_df = pread(scfn(scenariofn_w.value)).set_index("scid")
+SCCOLLECTION = scenariofn_w.value
+scenario_df = pread(scfn(SCCOLLECTION)).set_index("scid")
 cols = tuple({k:None for k in scenario_df["scgroup"]})
 try:
     assert scenariofn_w.value == old_scenariofn_w_value
@@ -136,7 +142,7 @@ except:
     datacols_w = DropdownManager(cols)
     datacols_w()
 
-# + jupyter={"source_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 HTML(f"<h2>Charts `{datacols_w.value}`</h2>")
 
 
@@ -177,6 +183,10 @@ for sc, r in df_select.to_dict(orient="index").items():
         print(f"\nScenario '{stratid}':\nTVL0={v0:.1f}, {tvl1}")
         if (COMMENT): print(f"({COMMENT})")
         plot_sim(simresults, simresults0, f"{DATAID}:{COLNM}", Params(**params_w.values_dct), pair=pair, colors=colors)
+        if isinstance(OUTIMGPATH, str):
+            plt.savefig(j(OUTIMGPATH, f"{SCCOLLECTION} - {stratid}.png"))
+        if isinstance(OUTDATAPATH, str):
+            fsave(pickle.dumps((simresults, simresults0)), f"{SCCOLLECTION} - {stratid}.data", OUTDATAPATH, binary=True)
         plt.show()
 # -
 # --
