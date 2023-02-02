@@ -37,7 +37,6 @@ import pickle
 import datetime 
 import version as _v
 
-
 plt.rcParams['figure.figsize'] = [12,6]
 plt_style('seaborn-v0_8-dark', 'seaborn-dark')
 print_version(require="2.3.1")
@@ -73,20 +72,23 @@ _v.print_version()
 # + tags=[] jupyter={"source_hidden": true}
 OUTPATH = "./outimg"
 OUTDATAPATH = "./outdata"
+HASLSZIP = os.path.isfile("HASLSZIP")
 try:
     output_w()
 except:
-    output_w = CheckboxManager.from_idvdct(
-        {f"Save output to target directory": True,
-         f"Show target directory listing": True,
-         #f"Generate docx & zip from charts": True,
-         #f"Clear files before each run": False,
-        })
+    choices = {
+        f"Save output to target directory": True,
+        f"Show target directory listing": True,
+    }
+    if HASLSZIP:
+        choices["Generate docx & zip from charts"] = True
+        choices["Clear files before each run"] = False
+    output_w = CheckboxManager.from_idvdct(choices)
     output_w()
 
 # + jupyter={"source_hidden": true}
 fname = lambda data, col: f"{datetime.datetime.now().strftime('%m%d-%H%M%S')}-{data}-{col.replace('/', '')}.png"
-fname("DATA", "COL")
+#fname("DATA", "COL")
 # -
 
 # ### Source data selection
@@ -183,7 +185,7 @@ colors["lightmode"] = {
     'valuehf': ('royalblue', 'silver')
 }
 
-# + jupyter={"source_hidden": true}
+# + tags=[] jupyter={"source_hidden": true}
 sim_defaults = {
     'plotPrice': True,
     'plotValueCsh': True,
@@ -196,12 +198,12 @@ sim_defaults = {
     'plotBid': True,
     'plotAsk': True,
     'plotInterpolated': True,
-    "plotDark": False,
-    'plotValueGrey': False,
+    "plotDark": True,
+    'plotValueGrey': True,
 }
 plt_styles = (('seaborn-v0_8-dark', 'seaborn-dark'), ('dark_background',)*2)
 
-# + jupyter={"source_hidden": true}
+# + tags=[] jupyter={"source_hidden": true}
 try: 
     params_w()
 except:
@@ -253,10 +255,11 @@ except:
 # ## Simulation
 
 # + tags=[] jupyter={"source_hidden": true}
-# if output_w.values[3]:
-# #     !rm {OUTPATH}/*.png
-# #     !rm {OUTDATAPATH}/*.data
-# #     !rm {OUTPATH}/_CHARTS.*
+if HASLSZIP:
+    if output_w.values[3]:
+        # !rm {OUTPATH}/*.png
+        # !rm {OUTDATAPATH}/*.data
+        # !rm {OUTPATH}/_CHARTS.*
 # -
 
 # ### Charts
@@ -298,13 +301,14 @@ if OUTPATH and output_w.values[1]:
 # Provide the corresponding box above (_"Generate docx & zip from charts"_) is checked, this will create a Word `docx` file embedding all the `png` files _(this does not work in the JupyterLite distribution)_.
 
 # + tags=[] jupyter={"source_hidden": true}
-# if OUTPATH and output_w.values[2]:
-#     print("Creating consolidated docx and zip from charts and data [uncheck box at top to disable]")
-#     markdown = "\n\n".join(f"![]({OUTPATH}/{fn})" for fn in [fn for fn in os.listdir(OUTPATH) if fn[-4:]==".png"])
-# #     !zip _CHARTS.zip -qq *.png
-# #     !zip _DATA.zip -qq *.data 
-#     fsave(markdown, "_CHARTS.md", OUTPATH, quiet=True)
-# #     !pandoc {OUTPATH}/_CHARTS.md -o {OUTPATH}/_CHARTS.docx
+if HASLSZIP:
+    if OUTPATH and output_w.values[2]:
+        print("Creating consolidated docx and zip from charts and data [uncheck box at top to disable]")
+        markdown = "\n\n".join(f"![]({OUTPATH}/{fn})" for fn in [fn for fn in os.listdir(OUTPATH) if fn[-4:]==".png"])
+        # !zip _CHARTS.zip -qq *.png
+        # !zip _DATA.zip -qq *.data 
+        fsave(markdown, "_CHARTS.md", OUTPATH, quiet=True)
+        # !pandoc {OUTPATH}/_CHARTS.md -o {OUTPATH}/_CHARTS.docx
 
 # + tags=[] jupyter={"source_hidden": true}
 
