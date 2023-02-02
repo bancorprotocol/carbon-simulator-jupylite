@@ -11,6 +11,8 @@ content/demo7-4/carbon
 *.png.data
 *.data
 NOPIP
+HASLSZIP
+_CHARTS.*
 
 # Created by https://www.gitignore.io/api/python
 # Edit at https://www.gitignore.io/?templates=python
