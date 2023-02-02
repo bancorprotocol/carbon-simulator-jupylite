@@ -1,20 +1,39 @@
 # Carbon Simulator (JupyterLite Version)
-_v1.0 - 01/Feb/2023_
+
+## Carbon resources
 
 - **[the "Demo7-4" notebook on JupyterLite][url_nb]**
- (notebook [on Binder][binder_latest74])
+([beta version][url_nb_beta])
+ ([Binder version][binder_latest74])
+
 - **[the "Scenarios" notebook on JupyterLite ][urlsc_nb]**
-- the associated [github repo][gh] ([actions status][gh_actions]; [actions setting][gh_action_set]; [pages settings][gh_pages_set])
+([beta version][urlsc_nb_beta])
+
+- the associated [beta github repo][gh] ([actions status][gh_actions]; [actions setting][gh_action_set]; [pages settings][gh_pages_set])
+
+- the associated [release github repo][ghr] ([actions status][ghr_actions]; [actions setting][ghr_action_set]; [pages settings][ghr_pages_set])
+
 - the `carbon simulator` [on github][simrepo], [pypi][simpypi] and various notebooks [on Binder][binderrepo]
 - the Carbon [website][carbonxyz], [whitepaper][whitepaper] and [litepaper][litepaper]
 
-[url]:https://sklbancor.github.io/carbon-sim-jupylite/lab/index.html
-[url_nb]:https://sklbancor.github.io/carbon-sim-jupylite/lab?path=demo7-4%2Fdemo7-4.ipynb
-[urlsc_nb]:https://sklbancor.github.io/carbon-sim-jupylite/lab?path=demo7-4%2FScenarios.ipynb
+[url]:https://simulator.carbondefi.xyz/lab/index.html
+[url_nb]:https://simulator.carbondefi.xyz/lab?path=demo7-4%2Fdemo7-4.ipynb
+[urlsc_nb]:https://simulator.carbondefi.xyz/lab?path=demo7-4%2FScenarios.ipynb
+
+[url_beta]:https://simulator-beta.carbondefi.xyz/lab/index.html
+[url_nb_beta]:https://simulator-beta.carbondefi.xyz/lab?path=demo7-4%2Fdemo7-4.ipynb
+[urlsc_nb_beta]:https://simulator-beta.carbondefi.xyz/lab?path=demo7-4%2FScenarios.ipynb
+
 [gh]:https://github.com/sklbancor/carbon-sim-jupylite
 [gh_actions]:https://github.com/sklbancor/carbon-sim-jupylite/actions
 [gh_action_set]:https://github.com/sklbancor/carbon-sim-jupylite/settings/actions
 [gh_pages_set]:https://github.com/sklbancor/carbon-sim-jupylite/settings/pages
+
+
+[ghr]:https://github.com/bancorprotocol/carbon-simulator-jupylite
+[ghr_actions]:https://github.com/bancorprotocol/carbon-simulator-jupylite/actions
+[ghr_action_set]:https://github.com/bancorprotocol/carbon-simulator-jupylite/settings/actions
+[ghr_pages_set]:https://github.com/bancorprotocol/carbon-simulator-jupylite/settings/pages
 
 [carbonxyz]:https://carbondefi.xyz
 [whitepaper]:https://carbondefi.xyz/whitepaper
@@ -24,9 +43,11 @@ _v1.0 - 01/Feb/2023_
 [binderrepo]:https://github.com/bancorprotocol/carbon-simulator-binder/
 [binder_latest74]:https://mybinder.org/v2/gh/bancorprotocol/carbon-simulator-binder/latest_7_4?labpath=Frozen%2FDemo7-4%2FDemo7-4.ipynb
 
----
+## JupyterLite resources
 
-Doc on Jupyterlite is [here][jupyterlite], repo  is [here][jupyterliter], and some getting-started is [here][codesolid]. Repo template is [here][template].
+- Doc on Jupyterlite is [here][jupyterlite], repo  is [here][jupyterliter], 
+- Some getting-started is [here][codesolid]
+- Repo template is [here][template].
 
 
 [codesolid]:https://codesolid.com/jupyter-lite-python-in-the-browser-with-serverless-jupyter/
@@ -34,7 +55,9 @@ Doc on Jupyterlite is [here][jupyterlite], repo  is [here][jupyterliter], and so
 [template]:https://github.com/jupyterlite/demo
 [jupyterliter]:https://github.com/jupyterlite/jupyterlite
 
----
+## Settings
+
+### DNS
 
 Required DNS settings
 
@@ -42,7 +65,8 @@ Required DNS settings
     Record Name: jupytersim01 (.bancordefi.xyz)
     Value: sklbancor.github.io
 
----
+
+### Requirements
 
 Original `requirements.txt`
 
@@ -68,7 +92,7 @@ Original `requirements.txt`
     plotly>=5,<6
     theme-darcula
 
----
+### Deploy
 
 Original `deploy.yml`
 
