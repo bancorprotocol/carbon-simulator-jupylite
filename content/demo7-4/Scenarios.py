@@ -220,12 +220,22 @@ for sc, r in df_select.to_dict(orient="index").items():
 
 HTML(f"<h2>Description `{datacols_w.value}`</h2>")
 
-# + jupyter={"source_hidden": true} tags=[]
+# + tags=[] jupyter={"source_hidden": true}
 # NOTE: those functions will be available in carbon.helpers from v2.3.2
-rr = df_select.to_dict(orient="index")
+# (TODO: MOVE LATEST VERSION)
 
+rr = df_select.to_dict(orient="index")
+def _isnan(x):
+    try:
+        return np.isnan(x)
+    except:
+        return False
+
+def removenan(dct):
+    return {k:v for k,v in dct if not _isnan(v)}
+    
 def r0(rr):
-    return rr[tuple(rr)[0]]
+    return removenan(rr[tuple(rr)[0]].items())
 
 def dr(r, r0, purge=True):
     result = {k: r[k] if r[k] != r0[k] else None for k in r0}
@@ -252,8 +262,8 @@ def drr(rr, baseline=False, purge=True, asdf=False, comment=True):
 
 r0(rr)
 
-# + jupyter={"source_hidden": true} tags=[]
-drr(rr)
+# + tags=[] jupyter={"source_hidden": true}
+#drr(rr)
 
 # + jupyter={"source_hidden": true} tags=[]
 drr(rr, asdf=True, baseline=False, comment=True)
